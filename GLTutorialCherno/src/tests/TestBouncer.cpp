@@ -64,14 +64,14 @@ namespace test {
 
 	void TestBouncer::OnUpdate(float deltaTime)
 	{
-		if (m_modelA[3][0] > 100 || m_modelA[3][0] < -100)
+		if (m_modelA[3][0] > 220 || m_modelA[3][0] < -250)
 				m_translationA.x = -m_translationA.x;
-		if (m_modelA[3][1] > 100 || m_modelA[3][1] < -100)
+		if (m_modelA[3][1] > 50 || m_modelA[3][1] < -275)
 				m_translationA.y = -m_translationA.y;
 		
-		if (m_modelB[3][0] > 100 || m_modelB[3][0] < -100)
+		if (m_modelB[3][0] > 220 || m_modelB[3][0] < -250)
 			m_translationB.x = -m_translationB.x;
-		if (m_modelB[3][1] > 100 || m_modelB[3][1] < -100)
+		if (m_modelB[3][1] > 50 || m_modelB[3][1] < -275)
 					m_translationB.y = -m_translationB.y;
 			
 	}
@@ -90,15 +90,22 @@ namespace test {
 
 			glm::mat4 mvp = m_proj * m_view * m_modelA;
 			m_shader.Bind();
+			m_shader.SetUniform4f("u_Color", 0.1f, 0.2, 0.8f, 1.0f);
 			m_shader.SetUniformMat4f("u_MVP", mvp);
 			m_renderer.Draw(m_va, m_ib, m_shader);
 		}
 
 		{
+			if (m_MoveB)
+			{
 				m_modelB = glm::translate(m_modelB, m_translationB);
-				glm::mat4 mvp = m_proj * m_view * m_modelB;
+
+			}
+
+			glm::mat4 mvp = m_proj * m_view * m_modelB;
 			m_shader.Bind();
 			m_shader.SetUniformMat4f("u_MVP", mvp);
+			m_shader.SetUniform4f("u_Color", 0.2f,0.3,0.5f,1.0f );
 			m_renderer.Draw(m_va, m_ib, m_shader);
 		}
 
